@@ -73,7 +73,7 @@
 
     <script>
         // تأكد أن ملف quran-data.json في نفس مجلد هذا الملف
-        fetch('quran-data.json')
+        fetch('https://raw.githubusercontent.com/zed-u/Quran-Kareem1/refs/heads/main/quran-data.json')
             .then(response => response.json())
             .then(quranData => {
                 const surahSelector = document.getElementById('surahSelector');
