@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرآن الكريم</title>
+    <style>
+        body {
+            font-family: 'Amiri', 'Traditional Arabic', serif;
+            line-height: 2.5;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .surah-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .surah-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .surah-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+        .surah-details {
+            font-size: 14px;
+            color: #ffd700
+        }
+        .surah-content {
+            display: none;
+            margin-top: 30px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            line-height: 2.8;
+            font-size: 22px;
+            text-align: justify;
+        }
+        .active {
+            display: block;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 1);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 1);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 15px rgba(255, 215, 0, 0.8);
+        }
+        h1, h2, h3 {
+            color: #ffd700;
+            text-align: center;
+            margin-top: 0;
+        }
+        .search-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            font-size: 16px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .surah-list {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        .copyright {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffffff;
+            font-size: 15px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .copyright strong {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        /* التعديلات الجديدة */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 1);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 15px rgba(255, 215, 0, 0.8);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            text-align: center;
+            font-size: 18px;
+            color: #ffd700;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .ayah-container {
+            margin-bottom: 15px;
+            position: relative;
+            text-align: right;
+        }
+        
+        .ayah-text {
+            display: inline;
+            text-align: justify;
+        }
+        
+        .ayah-number {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .bismillah {
+            text-align: center;
+            font-size: 28px;
+            color: #ffd700;
+            margin: 20px 0 30px;
+            letter-spacing: 5px;
+            font-weight: bold;
+        }
+        
+        .surah-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .surah-info {
+            text-align: center;
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="particles"></div>
+    <div class="header">
+        <h1>القرآن الكريم</h1>
+    </div>
+
+    <div class="container">
+        <input type="text" class="search-box" placeholder="ابحث عن سورة..." id="searchInput">
+
+        <div id="surahList" class="surah-list">
+            <!-- سور القرآن سيتم إضافتها هنا بالجافاسكريبت -->
+        </div>
+
+        <div id="surahContent" class="surah-content"></div>
+    </div>
+
+    <footer>
+        <div class="copyright">
+            <p>&copy;2025 - <script>document.write(new Date().getFullYear());</script> جميع الحقوق محفوظة لموقع </p>
+            <p><strong><a href="https://zed-u.github.io/Quran-Kareem/" target="_blank" style="color: #ffd700;">Quran-Kareem</a></strong></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
