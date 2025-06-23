@@ -1192,7 +1192,7 @@
         let currentSurah = null;
         let currentPage = 1;
         let ayahsArray = [];
-        const ayahsPerPage = 8;
+        const ayahsPerPage = 7;
 
         function displaySurahs(surahArray) {
             surahListElement.innerHTML = '';
